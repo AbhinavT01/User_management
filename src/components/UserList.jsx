@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { FiPlus, FiEdit, FiTrash2, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { fetchUsers, deleteUser } from './api';
 import UserForm from './UserForm';
 
@@ -8,6 +9,8 @@ const UserList = () => {
   const [error, setError] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // Changed to 10 users per page
 
   useEffect(() => {
     const getUsers = async () => {
@@ -26,24 +29,40 @@ const UserList = () => {
   const handleDelete = async (id) => {
     try {
       await deleteUser(id);
-      setUsers(prevUsers => prevUsers.filter(user => user.id !== id));
+      setUsers(prevUsers => {
+        const updatedUsers = prevUsers.filter(user => user.id !== id);
+        if (updatedUsers.length <= (currentPage - 1) * itemsPerPage) {
+          setCurrentPage(prev => Math.max(1, prev - 1));
+        }
+        return updatedUsers;
+      });
     } catch (err) {
       setError(err.message);
     }
+  };
+
+  // Pagination calculations
+  const totalPages = Math.ceil(users.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentUsers = users.slice(startIndex, endIndex);
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(Math.max(1, Math.min(newPage, totalPages)));
   };
 
   if (loading) return <div className="loading">Loading users...</div>;
   if (error) return <div className="error-message">Error: {error}</div>;
 
   return (
-    <div className="user-list">
+    <div className="user-list-container">
       <div className="header">
-        <h1>User Management</h1>
+        <h1>User Management System</h1>
         <button 
-          className="add-button"
+          className="button button-primary"
           onClick={() => { setSelectedUser(null); setShowForm(true); }}
         >
-          + Add User
+          <FiPlus /> Add User
         </button>
       </div>
 
@@ -55,43 +74,80 @@ const UserList = () => {
         />
       )}
 
-      <table>
-        <thead>
-          <tr>
-            <th>No.</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Department</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user, index) => (
-            <tr key={user.id}>
-              <td>{index + 1}</td>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.company?.bs || 'N/A'}</td>
-              <td>
-                <div className="actions">
-                  <button 
-                    className="edit-button"
-                    onClick={() => { setSelectedUser(user); setShowForm(true); }}
-                  >
-                    Edit
-                  </button>
-                  <button 
-                    className="delete-button"
-                    onClick={() => handleDelete(user.id)}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </td>
+      <div className="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Department</th>
+              <th>Actions</th>
             </tr>
+          </thead>
+          <tbody>
+            {currentUsers.map((user, index) => (
+              <tr key={user.id}>
+                {/* Changed to show per-page numbering */}
+                <td>{index + 1}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.company?.bs || 'N/A'}</td>
+                <td>
+                  <div className="actions">
+                    <button 
+                      className="button button-warning"
+                      onClick={() => { setSelectedUser(user); setShowForm(true); }}
+                    >
+                      <FiEdit />
+                    </button>
+                    <button 
+                      className="button button-danger"
+                      onClick={() => handleDelete(user.id)}
+                    >
+                      <FiTrash2 />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        
+        {users.length === 0 && (
+          <div className="no-users">No users found. Click "Add User" to create new users.</div>
+        )}
+      </div>
+
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button
+            className={`page-button ${currentPage === 1 ? 'disabled' : ''}`}
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            <FiChevronLeft />
+          </button>
+          
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i + 1}
+              className={`page-button ${currentPage === i + 1 ? 'active' : ''}`}
+              onClick={() => handlePageChange(i + 1)}
+            >
+              {i + 1}
+            </button>
           ))}
-        </tbody>
-      </table>
+
+          <button
+            className={`page-button ${currentPage === totalPages ? 'disabled' : ''}`}
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            <FiChevronRight />
+          </button>
+        </div>
+      )}
     </div>
   );
 };

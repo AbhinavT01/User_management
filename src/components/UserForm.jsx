@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
-import { addUser, updateUser } from './api';
+import { useState, useEffect } from 'react'
+import { FiX } from 'react-icons/fi'
+import { addUser, updateUser } from './api'
 
 const UserForm = ({ user, setUsers, setShowForm }) => {
   const [formData, setFormData] = useState({
@@ -7,8 +8,8 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
     email: '',
     phone: '',
     company: { bs: '' }
-  });
-  const [error, setError] = useState(null);
+  })
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     if (user) {
@@ -17,43 +18,52 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
         email: user.email,
         phone: user.phone,
         company: { bs: user.company?.bs || '' }
-      });
+      })
     }
-  }, [user]);
+  }, [user])
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
+    e.preventDefault()
+    setError(null)
     
-    if (!formData.name || !formData.email) {
-      setError('Name and Email are required fields');
-      return;
+    if (!formData.name.trim() || !formData.email.trim()) {
+      setError('Name and Email are required fields')
+      return
     }
 
     try {
       if (user) {
-        const updatedUser = await updateUser(user.id, formData);
-        setUsers(prev => prev.map(u => u.id === user.id ? updatedUser : u));
+        const updatedUser = await updateUser(user.id, formData)
+        setUsers(prev => prev.map(u => u.id === user.id ? updatedUser : u))
       } else {
-        const newUser = await addUser(formData);
-        setUsers(prev => [...prev, newUser]);
+        const newUser = await addUser(formData)
+        setUsers(prev => [newUser, ...prev])
       }
-      setShowForm(false);
+      setShowForm(false)
     } catch (error) {
-      setError(error.message);
+      setError(error.message)
     }
-  };
+  }
 
   return (
     <div className="modal">
       <div className="modal-content">
-        <h2 className="form-title">{user ? 'Edit User' : 'Add New User'}</h2>
-        
+        <div className="header">
+          <h2 className="form-title">{user ? 'Edit User' : 'Create New User'}</h2>
+          <button 
+            className="button button-danger" 
+            onClick={() => setShowForm(false)}
+            style={{ padding: '0.5rem' }}
+          >
+            <FiX />
+          </button>
+        </div>
+
         {error && <div className="error-message">{error}</div>}
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Full Name</label>
+            <label>Full Name *</label>
             <input
               type="text"
               value={formData.name}
@@ -63,7 +73,7 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
           </div>
 
           <div className="form-group">
-            <label>Email Address</label>
+            <label>Email Address *</label>
             <input
               type="email"
               value={formData.email}
@@ -98,19 +108,22 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
           <div className="form-actions">
             <button 
               type="button" 
-              className="cancel-button"
+              className="button button-danger"
               onClick={() => setShowForm(false)}
             >
               Cancel
             </button>
-            <button type="submit" className="add-button">
+            <button 
+              type="submit" 
+              className="button button-success"
+            >
               {user ? 'Update User' : 'Create User'}
             </button>
           </div>
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default UserForm;
+export default UserForm
