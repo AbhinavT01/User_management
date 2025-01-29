@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
-import { FiX } from 'react-icons/fi'
-import { addUser, updateUser } from './api'
+// src/components/UserForm.jsx
+import { useState, useEffect } from 'react';
+import { FiX } from 'react-icons/fi';
+import { addUser, updateUser } from './api';
 
 const UserForm = ({ user, setUsers, setShowForm }) => {
   const [formData, setFormData] = useState({
@@ -8,8 +9,8 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
     email: '',
     phone: '',
     company: { bs: '' }
-  })
-  const [error, setError] = useState(null)
+  });
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (user) {
@@ -18,42 +19,42 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
         email: user.email,
         phone: user.phone,
         company: { bs: user.company?.bs || '' }
-      })
+      });
     }
-  }, [user])
+  }, [user]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError(null)
+    e.preventDefault();
+    setError(null);
     
     if (!formData.name.trim() || !formData.email.trim()) {
-      setError('Name and Email are required fields')
-      return
+      setError('Name and Email are required fields');
+      return;
     }
 
     try {
+      let response;
       if (user) {
-        const updatedUser = await updateUser(user.id, formData)
-        setUsers(prev => prev.map(u => u.id === user.id ? updatedUser : u))
+        response = await updateUser(user.id, formData);
+        setUsers(updatedUser => updatedUser);
       } else {
-        const newUser = await addUser(formData)
-        setUsers(prev => [newUser, ...prev])
+        response = await addUser(formData);
+        setUsers(response);
       }
-      setShowForm(false)
+      setShowForm(false);
     } catch (error) {
-      setError(error.message)
+      setError(error.message);
     }
-  }
+  };
 
   return (
-    <div className="modal">
+    <div className="modal-overlay">
       <div className="modal-content">
-        <div className="header">
-          <h2 className="form-title">{user ? 'Edit User' : 'Create New User'}</h2>
+        <div className="modal-header">
+          <h2>{user ? 'Edit User' : 'New User'}</h2>
           <button 
-            className="button button-danger" 
+            className="btn-close"
             onClick={() => setShowForm(false)}
-            style={{ padding: '0.5rem' }}
           >
             <FiX />
           </button>
@@ -73,7 +74,7 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
           </div>
 
           <div className="form-group">
-            <label>Email Address *</label>
+            <label>Email *</label>
             <input
               type="email"
               value={formData.email}
@@ -83,7 +84,7 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
           </div>
 
           <div className="form-group">
-            <label>Phone Number</label>
+            <label>Phone</label>
             <input
               type="tel"
               value={formData.phone}
@@ -97,33 +98,27 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
             <input
               type="text"
               value={formData.company.bs}
-              onChange={e => setFormData({ 
-                ...formData, 
-                company: { bs: e.target.value } 
-              })}
+              onChange={e => setFormData({ ...formData, company: { bs: e.target.value } })}
               placeholder="Engineering"
             />
           </div>
 
           <div className="form-actions">
+            <button type="submit" className="btn-primary">
+              {user ? 'Update' : 'Create'}
+            </button>
             <button 
               type="button" 
-              className="button button-danger"
+              className="btn-secondary"
               onClick={() => setShowForm(false)}
             >
               Cancel
-            </button>
-            <button 
-              type="submit" 
-              className="button button-success"
-            >
-              {user ? 'Update User' : 'Create User'}
             </button>
           </div>
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default UserForm
+export default UserForm;
