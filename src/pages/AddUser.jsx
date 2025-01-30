@@ -8,7 +8,7 @@ const AddUser = () => {
   const handleAddUser = async (userData) => {
     try {
       const response = await axios.post("https://jsonplaceholder.typicode.com/users", userData);
-      console.log("User Added:", response.data); // Simulated success response
+      console.log("User Added:", response.data); 
       navigate("/");
     } catch (error) {
       console.error("Error adding user:", error);

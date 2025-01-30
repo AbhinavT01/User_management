@@ -1,4 +1,4 @@
-// src/components/UserList.jsx
+
 import { useEffect, useState } from 'react';
 import { FiPlus, FiEdit, FiTrash2, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { fetchUsers, deleteUser } from './api';
@@ -61,7 +61,7 @@ const UserList = () => {
     <div className="dashboard-container">
       <div className="main-content">
         <div className="content-header">
-          <h1>User Management</h1>
+          <h1><b>User Management System</b></h1>
           <button 
             className="btn-primary"
             onClick={() => { setSelectedUser(null); setShowForm(true); }}

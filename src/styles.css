@@ -49,12 +49,12 @@ table th, table td {
 }
 
 table th {
-  background: #007bff;
+  background: #0c994b;
   color: white;
 }
 
 table tr:hover {
-  background: #f1f1f1;
+  background: #bdfedd;
 }
 
 /* Buttons */
