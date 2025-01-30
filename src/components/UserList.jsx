@@ -78,7 +78,7 @@ const UserList = () => {
             setShowForm={setShowForm} 
           />
         )}
-<div className="scroll-message" > <p>Scroll to View</p></div>
+<div className="scroll-message" > <p>Scroll    ➤   to View</p></div>
 
         <div className="table-container">
           <table>
