@@ -1,8 +1,44 @@
-# React + Vite
+# User Management Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web application for managing user data with CRUD operations, built with React, Vite, and JSONPlaceholder API.
 
-Currently, two official plugins are available:
+![Dashboard Preview](screenshot.png) <!-- Add actual screenshot later -->
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+
+- **Beautiful UI**: Glassmorphic design with gradient effects and animations
+- **User Management**:
+  - View users with pagination (15 users total, 8 per page)
+  - Add new users
+  - Edit existing users
+  - Delete users
+- **Responsive Design**: Works on all screen sizes
+- **Modern Components**:
+  - Interactive modal forms
+  - Animated buttons and hover effects
+  - Department tags with custom styling
+- **Error Handling**: Clear error messages for API failures
+- **Pagination**: 10 user per page navigation system
+
+## Technologies Used
+
+- React + Vite
+- React Icons
+- Axios for API calls
+- CSS (Modern features like backdrop-filter, gradients)
+- JSONPlaceholder (Mock API)
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v16.x or higher)
+- npm (v8.x or higher)
+- Git
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/user-management-dashboard.git
+   cd user-management-dashboard
