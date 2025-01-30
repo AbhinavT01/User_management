@@ -355,4 +355,8 @@ tr:hover {
     
     z-index: 1000;
   }
+  .content-header {
+    padding: 0.7rem;
+    font-size: 0.6rem;
+  }
 }
