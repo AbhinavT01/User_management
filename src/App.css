@@ -1,4 +1,4 @@
-/* src/App.css */
+
 
 :root {
   --primary: #4361ee;
@@ -223,9 +223,6 @@ tr:hover {
 }
 
 
-/* Existing styles remain unchanged */
-
-/* Add these media queries at the end */
 @media (max-width: 768px) {
   .dashboard-container {
     padding: 1rem;
@@ -332,13 +329,12 @@ tr:hover {
   }
 }
 
-/* Existing remaining styles stay the same */
-/* Default: Hide scroll message on larger screens */
+
 .scroll-message {
   display: none;
 }
 
-/* Show scroll message only on mobile screens */
+
 @media screen and (max-width: 665px) {
   .scroll-message {
     display: block;
