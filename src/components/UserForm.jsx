@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { FiX } from 'react-icons/fi';
 import { addUser, updateUser } from './api';
@@ -33,13 +32,12 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
     }
 
     try {
-      let response;
       if (user) {
-        response = await updateUser(user.id, formData);
-        setUsers(updatedUser => updatedUser);
+        const updatedUser = await updateUser(user.id, formData);
+        setUsers(prev => prev.map(u => u.id === user.id ? updatedUser : u));
       } else {
-        response = await addUser(formData);
-        setUsers(response);
+        const newUser = await addUser(formData);
+        setUsers(prev => [newUser, ...prev]);
       }
       setShowForm(false);
     } catch (error) {
@@ -48,13 +46,14 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
   };
 
   return (
-    <div className="modal-overlay">
+    <div className="modal">
       <div className="modal-content">
-        <div className="modal-header">
-          <h2>{user ? 'Edit User' : 'New User'}</h2>
+        <div className="header">
+          <h2 className="form-title">{user ? 'Edit User' : 'Create New User'}</h2>
           <button 
-            className="btn-close"
+            className="button button-danger" 
             onClick={() => setShowForm(false)}
+            style={{ padding: '0.5rem' }}
           >
             <FiX />
           </button>
@@ -69,27 +68,27 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
               type="text"
               value={formData.name}
               onChange={e => setFormData({ ...formData, name: e.target.value })}
-              placeholder="Rohan Sharma"
+              placeholder="John Doe"
             />
           </div>
 
           <div className="form-group">
-            <label>Email *</label>
+            <label>Email Address *</label>
             <input
               type="email"
               value={formData.email}
               onChange={e => setFormData({ ...formData, email: e.target.value })}
-              placeholder="Rohan@gmail.com"
+              placeholder="john@example.com"
             />
           </div>
 
           <div className="form-group">
-            <label>Phone</label>
+            <label>Phone Number</label>
             <input
               type="tel"
               value={formData.phone}
               onChange={e => setFormData({ ...formData, phone: e.target.value })}
-              placeholder="+916203522711"
+              placeholder="+1 234 567 890"
             />
           </div>
 
@@ -98,21 +97,27 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
             <input
               type="text"
               value={formData.company.bs}
-              onChange={e => setFormData({ ...formData, company: { bs: e.target.value } })}
+              onChange={e => setFormData({ 
+                ...formData, 
+                company: { bs: e.target.value } 
+              })}
               placeholder="Engineering"
             />
           </div>
 
           <div className="form-actions">
-            <button type="submit" className="btn-primary">
-              {user ? 'Update' : 'Create'}
-            </button>
             <button 
               type="button" 
-              className="btn-secondary"
+              className="button button-danger"
               onClick={() => setShowForm(false)}
             >
               Cancel
+            </button>
+            <button 
+              type="submit" 
+              className="button button-success"
+            >
+              {user ? 'Update User' : 'Create User'}
             </button>
           </div>
         </form>
