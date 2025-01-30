@@ -50,7 +50,7 @@ Ensure you have the following installed:
    Open your terminal and run the following command to clone the repository:
    ```bash
    git clone https://github.com/AbhinavT01/User_management.git
-   cd user-management-dashboard  
+   cd user-management 
 2. **Install Dependencies
    Run the following commmand to install the required dependencies:
    ```bash
