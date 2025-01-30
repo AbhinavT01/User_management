@@ -11,6 +11,7 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
   });
   const [error, setError] = useState(null);
 
+  // If user data is provided (edit mode), prefill the form fields
   useEffect(() => {
     if (user) {
       setFormData({
@@ -26,6 +27,7 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
     e.preventDefault();
     setError(null);
     
+    // Basic validation: Name and email are mandatory
     if (!formData.name.trim() || !formData.email.trim()) {
       setError('Name and Email are required fields');
       return;
@@ -33,15 +35,17 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
 
     try {
       if (user) {
+        // Updating an existing user
         const updatedUser = await updateUser(user.id, formData);
         setUsers(prev => prev.map(u => u.id === user.id ? updatedUser : u));
       } else {
+        // Creating a new user
         const newUser = await addUser(formData);
-        setUsers(prev => [newUser, ...prev]);
+        setUsers(prev => [newUser, ...prev]); // Add new user at the top
       }
-      setShowForm(false);
+      setShowForm(false); // Close the form after successful operation
     } catch (error) {
-      setError(error.message);
+      setError(error.message); // Something went wrong, show the error message
     }
   };
 
@@ -55,11 +59,11 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
             onClick={() => setShowForm(false)}
             style={{ padding: '0.5rem' }}
           >
-            <FiX />
+            <FiX /> {/* Close button */}
           </button>
         </div>
 
-        {error && <div className="error-message">{error}</div>}
+        {error && <div className="error-message">{error}</div>} {/* Show error if any */}
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -68,7 +72,7 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
               type="text"
               value={formData.name}
               onChange={e => setFormData({ ...formData, name: e.target.value })}
-              placeholder="John Doe"
+              placeholder="Amit Sharma" // Using an Indian name for better relatability
             />
           </div>
 
@@ -78,7 +82,7 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
               type="email"
               value={formData.email}
               onChange={e => setFormData({ ...formData, email: e.target.value })}
-              placeholder="john@example.com"
+              placeholder="amit.sharma@example.in" // Indian domain example
             />
           </div>
 
@@ -88,7 +92,7 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
               type="tel"
               value={formData.phone}
               onChange={e => setFormData({ ...formData, phone: e.target.value })}
-              placeholder="+1 234 567 890"
+              placeholder="+91 98765 43210" // Indian phone number format
             />
           </div>
 
@@ -101,7 +105,7 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
                 ...formData, 
                 company: { bs: e.target.value } 
               })}
-              placeholder="Engineering"
+              placeholder="IT Services" // Common department in Indian companies
             />
           </div>
 
@@ -109,7 +113,7 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
             <button 
               type="button" 
               className="button button-danger"
-              onClick={() => setShowForm(false)}
+              onClick={() => setShowForm(false)} // User decides to cancel, just close form
             >
               Cancel
             </button>
@@ -117,7 +121,7 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
               type="submit" 
               className="button button-success"
             >
-              {user ? 'Update User' : 'Create User'}
+              {user ? 'Update User' : 'Create User'} {/* Change button text based on mode */}
             </button>
           </div>
         </form>
