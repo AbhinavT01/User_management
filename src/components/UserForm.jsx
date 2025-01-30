@@ -69,7 +69,7 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
               type="text"
               value={formData.name}
               onChange={e => setFormData({ ...formData, name: e.target.value })}
-              placeholder="John Doe"
+              placeholder="Rohan Sharma"
             />
           </div>
 
@@ -79,7 +79,7 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
               type="email"
               value={formData.email}
               onChange={e => setFormData({ ...formData, email: e.target.value })}
-              placeholder="john@example.com"
+              placeholder="Rohan@gmail.com"
             />
           </div>
 
@@ -89,7 +89,7 @@ const UserForm = ({ user, setUsers, setShowForm }) => {
               type="tel"
               value={formData.phone}
               onChange={e => setFormData({ ...formData, phone: e.target.value })}
-              placeholder="+1 234 567 890"
+              placeholder="+916203522711"
             />
           </div>
 
