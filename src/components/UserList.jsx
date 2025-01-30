@@ -62,6 +62,7 @@ const UserList = () => {
       <div className="main-content">
         <div className="content-header">
           <h1><b>User Management System</b></h1>
+          
           <button 
             className="btn-primary"
             onClick={() => { setSelectedUser(null); setShowForm(true); }}
@@ -77,6 +78,7 @@ const UserList = () => {
             setShowForm={setShowForm} 
           />
         )}
+<div className="scroll-message" > <p>Scroll to View</p></div>
 
         <div className="table-container">
           <table>

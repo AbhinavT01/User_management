@@ -333,3 +333,26 @@ tr:hover {
 }
 
 /* Existing remaining styles stay the same */
+/* Default: Hide scroll message on larger screens */
+.scroll-message {
+  display: none;
+}
+
+/* Show scroll message only on mobile screens */
+@media screen and (max-width: 768px) {
+  .scroll-message {
+    display: block;
+    text-align: center;
+    background: rgba(8, 158, 6, 0.762); 
+    color: white;
+    font-weight: 700;
+    padding: 10px;
+    font-size: 12px;
+    position:absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    
+    z-index: 1000;
+  }
+}
