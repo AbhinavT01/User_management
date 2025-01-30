@@ -7,7 +7,7 @@ A modern web application for managing user data with CRUD operations, built with
 
 - **Beautiful UI**: Glassmorphic design with gradient effects and animations.
 - **User Management**:
-  - View users with pagination (15 users total, 8 per page).
+  - View users with pagination (10 per page).
   - Add new users.
   - Edit existing users.
   - Delete users.
@@ -17,7 +17,7 @@ A modern web application for managing user data with CRUD operations, built with
   - Animated buttons and hover effects.
   - Department tags with custom styling.
 - **Error Handling**: Clear error messages for API failures.
-- **Pagination**: 2-page navigation system.
+- **Pagination**: 10 user per page  navigation system.
 
 ## Technologies Used
 
